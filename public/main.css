@@ -1,0 +1,26 @@
+.recipe-cont {
+  padding-top: 30px;
+  padding-bottom: 100px;
+}
+hr {
+  border: 4px solid #16a1a4;
+}
+.recipe-desc {
+  padding: 35px 95px 0 95px;
+}
+h6 {
+  padding-top: 10px;
+}
+@media screen and (max-width: 735px) {
+  img {
+    width: 100%;
+    height: auto;
+  }
+  .recipe-desc {
+    padding: 35px 0 0 15px !important;
+  }
+  ol {
+    padding-right: 20px;
+    text-align: justify;
+  }
+}

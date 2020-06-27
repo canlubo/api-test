@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <title>RECIPES</title>
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    />
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
+    <link rel="stylesheet" href="/main.css" />
+    <script
+      src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js"
+      type="text/javascript"
+    ></script>
+    <link
+      href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
+
+  <script>
+    var app = angular.module("myApp", []);
+  </script>
+
+  <body>
+    <div class="standardpage" ng-controller="mainCtrl">
+      <!-- npm run start:api -->
+      <div class="container">
+        <div class="test" id="test"></div>
+      </div>
+    </div>
+
+    <script>
+      app.controller("mainCtrl", function ($scope, $http) {
+        $.ajax({
+          type: "GET",
+          url: "/recipes",
+          success: function (res) {
+            var i = 0;
+            var total = res.length;
+            var ids = [];
+
+            var insertTable1Fila = "<div>";
+            for (var i = 0; i < total; i++) {
+              ingredientsLength = res[i].ingredients.length;
+              directionsLength = res[i].directions.length;
+              insertTable1Fila += "<div class='recipe-cont'>";
+              insertTable1Fila +=
+                "<div class='text-center'> <h1>" + res[i].title + "</h1>";
+              insertTable1Fila +=
+                "<img class='img-responsive' src='" +
+                res[i].images.medium +
+                "'>" +
+                "<h6><i>" +
+                res[i].description +
+                "</i></h6>" +
+                "</div>" +
+                "<div class='recipe-desc'>";
+              insertTable1Fila +=
+                "<p> Servings: " + res[i].servings + " servings" + "</p>";
+              insertTable1Fila +=
+                "<p> Preparation Time: " +
+                res[i].prepTime +
+                " minutes" +
+                "</p>";
+              insertTable1Fila +=
+                "<p> Cook time: " + res[i].cookTime + " minutes" + "</p>";
+
+              insertTable1Fila += "<h3>Ingredients</h3>";
+              for (var j = 0; j < ingredientsLength; j++) {
+                insertTable1Fila +=
+                  "<p>" +
+                  res[i].ingredients[j].amount +
+                  "  " +
+                  res[i].ingredients[j].measurement +
+                  "  " +
+                  res[i].ingredients[j].name +
+                  "  " +
+                  "</p>";
+              }
+              insertTable1Fila += "<h3>Cooking Procedure</h3>";
+              insertTable1Fila += "<ol>";
+              for (var k = 0; k < directionsLength; k++) {
+                if (res[i].directions[k].optional == false) {
+                  insertTable1Fila +=
+                    "<li>" + res[i].directions[k].instructions + "  " + "</li>";
+                }
+              }
+              insertTable1Fila += "</ol></div></div><hr>";
+            }
+            insertTable1Fila += "</div>";
+            document.getElementById("test").innerHTML = insertTable1Fila;
+          },
+        });
+      });
+    </script>
+  </body>
+</html>
